@@ -42,8 +42,6 @@ exports.SignIn = (req, res) => {
 
   UserModel.findOne({ username: username }).then((data) => {
     if (data) {
-      // console.log(data.password)
-
       bcrypt.compare(password, data.password, (err, isMatch) => {
         if (isMatch) {
           UserModel.findOne({ username: username }).then((data) => {
@@ -60,7 +58,7 @@ exports.SignIn = (req, res) => {
         }
       });
     } else {
-      res.send("email invelid");
+      res.send("username invelid");
     }
   });
 };
