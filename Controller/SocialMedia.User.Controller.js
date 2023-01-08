@@ -50,7 +50,7 @@ exports.SignIn = (req, res) => {
             const token = jwt.sign(
               { Email: data.Email, username: data.username },
               process.env.secretOrPrivateKey,
-              { expiresIn: process.env.expiresIn }
+              { expiresIn: "1h" }
             );
             res.send({ data: data, token: token });
             console.log(token);
