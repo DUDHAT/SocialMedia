@@ -35,3 +35,32 @@ exports.signup = (req, res) => {
     });
   });
 };
+
+exports.SignIn = (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+
+  UserModel.findOne({ username: username }).then((data) => {
+    if (data) {
+      // console.log(data.password)
+
+      bcrypt.compare(password, data.password, (err, isMatch) => {
+        if (isMatch) {
+          UserModel.findOne({ username: username }).then((data) => {
+            const token = jwt.sign(
+              { Email: data.Email, username: data.username },
+              process.env.secretOrPrivateKey,
+              { expiresIn: process.env.expiresIn }
+            );
+            res.send({ data: data, token: token });
+            console.log(token);
+          });
+        } else {
+          res.send("invelid password");
+        }
+      });
+    } else {
+      res.send("email invelid");
+    }
+  });
+};

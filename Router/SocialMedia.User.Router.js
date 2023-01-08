@@ -16,6 +16,13 @@ user_router.post(
   UserController.signup
 );
 
-// user_router.post("/signin", user_models.signin);
+user_router.post(
+  "/signin",
+  [
+    body("username").trim().isLength({ min: 3 }).withMessage("min length is 3"),
+    body("password").trim().isLength({ min: 6 }),
+  ],
+  UserController.SignIn
+);
 
 module.exports = user_router;
